@@ -12,7 +12,11 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
+import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
+
+import static org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter.Directive.COOKIES;
 
 @Configuration
 @EnableWebSecurity
@@ -23,9 +27,20 @@ public class SecurityConfig {
         http.formLogin(Customizer.withDefaults());
         http.sessionManagement(session ->
                 session.maximumSessions(1)//will prevent a user from logging in multiple times.
+                        .maxSessionsPreventsLogin(true) //with this if client tries to login 2 times, second time will not be able to.
                 );
+
+        //http.sessionManagement(session -> session.invalidSessionUrl("")); //with this when session finish but client make a request,we can send to the url
+
+        //you should clear out the cookie of session when a session is expired or client logout
+        http.logout(logout ->
+                logout.addLogoutHandler(new HeaderWriterLogoutHandler(new ClearSiteDataHeaderWriter(COOKIES)))); //delete the cookie
+        //an alternative is the next line
+        http.logout(l -> l.deleteCookies("JSESSIONID"));//better to delete some specific cookie
+
         return http.build();
     }
+
 
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder encoder){
