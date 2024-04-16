@@ -21,6 +21,17 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     /**
+     * For user in memory through basic authentication
+     */
+    /*@Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated());
+        http.httpBasic(Customizer.withDefaults());
+        http.formLogin(Customizer.withDefaults());
+        return http.build();
+    }*/
+
+    /**
      * Login using authenticationManager bean.
      */
     @Bean
