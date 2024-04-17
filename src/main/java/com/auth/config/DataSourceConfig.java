@@ -6,6 +6,10 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
 
+/**
+ * READ README
+ */
+
 @Configuration
 public class DataSourceConfig {
 

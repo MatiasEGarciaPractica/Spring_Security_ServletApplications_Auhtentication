@@ -3,6 +3,7 @@ package com.auth.web;
 import com.auth.dto.LoginRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.RememberMeAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ public class LoginController {
         Authentication authenticationRequest = UsernamePasswordAuthenticationToken
                 .unauthenticated(loginRequest.username(), loginRequest.password());
         Authentication authenticationResponse = this.authManager.authenticate(authenticationRequest);
+
         return ResponseEntity.ok("Welcome, you have successfully log in");
     }
 

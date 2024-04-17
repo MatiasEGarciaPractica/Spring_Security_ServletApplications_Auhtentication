@@ -25,6 +25,9 @@ import org.springframework.security.web.authentication.rememberme.TokenBasedReme
 
 import javax.sql.DataSource;
 
+/**
+ * READ README
+ */
 @Configuration
 public class SecurityConfig {
 
